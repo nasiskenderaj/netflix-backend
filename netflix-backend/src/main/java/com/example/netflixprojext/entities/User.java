@@ -35,7 +35,7 @@ public class User {
     }
 
     public User(UserBuilder userBuilder) {
-        this.id= userBuilder.id;
+
         this.name=userBuilder.name;
         this.age=userBuilder.age;
         this.email=userBuilder.email;
@@ -111,7 +111,7 @@ public class User {
     }
 
     public static class UserBuilder{
-        private Long id;
+
 
         private String name;
         private String surname;
@@ -121,10 +121,7 @@ public class User {
         private List<Movie> movieList;
         private List<TvShows> tvShowsList;
 
-        public UserBuilder withId(Long id){
-            this.id=id;
-            return this;
-        }
+
 
         public UserBuilder withName(String name){
             this.name=name;

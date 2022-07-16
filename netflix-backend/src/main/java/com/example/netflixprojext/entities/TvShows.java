@@ -16,9 +16,10 @@ public class TvShows {
     private String description;
     private String url;
     private int noOfEpisodes;
+    private String imageUrl;
 
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
@@ -28,25 +29,16 @@ public class TvShows {
             ,inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> userList;
 
-    public TvShows(String title, double duration, double price, String description, String url, int noOfEpisodes, Category category,List<User> userList) {
-        this.title = title;
-        this.duration = duration;
-        this.price = price;
-        this.description = description;
-        this.url = url;
-        this.noOfEpisodes = noOfEpisodes;
-        this.category = category;
-        this.userList=userList;
-    }
 
-    public TvShows(String title, double duration, double price, String description, String url, int noOfEpisodes, Category category) {
+    public TvShows(String title, double duration, double price, String description, String url, int noOfEpisodes,String imageUrl) {
         this.title = title;
         this.duration = duration;
         this.price = price;
         this.description = description;
         this.url = url;
         this.noOfEpisodes = noOfEpisodes;
-        this.category = category;
+        this.imageUrl=imageUrl;
+
     }
 
     public TvShows() {
@@ -123,5 +115,13 @@ public class TvShows {
 
     public void setUserList(List<User> userList) {
         this.userList = userList;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

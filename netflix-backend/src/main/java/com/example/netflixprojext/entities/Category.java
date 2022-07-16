@@ -1,6 +1,9 @@
 package com.example.netflixprojext.entities;
 
+import org.yaml.snakeyaml.events.Event;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Category {
@@ -10,13 +13,14 @@ public class Category {
     private Long id;
     private String gender;
 
-    @OneToOne(mappedBy = "category")
-    private Movie movie;
+    @OneToMany(mappedBy = "category")
+    private List<Movie> movieList;
 
-    @OneToOne(mappedBy = "category")
-    private TvShows tvShows;
+    @OneToMany(mappedBy = "category")
+    private List<TvShows> tvShowsList;
 
     public Category(String gender) {
+
         this.gender = gender;
     }
 
@@ -41,21 +45,19 @@ public class Category {
     }
 
 
-    public Movie getMovie() {
-        return movie;
+    public List<Movie> getMovieList() {
+        return movieList;
     }
 
-    public void setMovie(Movie movie) {
-        this.movie = movie;
+    public void setMovieList(List<Movie> movieList) {
+        this.movieList = movieList;
     }
 
-    public TvShows getTvShows() {
-        return tvShows;
+    public List<TvShows> getTvShowsList() {
+        return tvShowsList;
     }
 
-    public void setTvShows(TvShows tvShows) {
-        this.tvShows = tvShows;
+    public void setTvShowsList(List<TvShows> tvShowsList) {
+        this.tvShowsList = tvShowsList;
     }
-
-
 }

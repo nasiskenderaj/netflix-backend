@@ -1,6 +1,7 @@
 package com.example.netflixprojext.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,8 +16,9 @@ public class Movie {
     private double price;
     private String description;
     private String url;
+    private String imageUrl;
 
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "category_id")
     private Category category;
 
@@ -26,23 +28,16 @@ public class Movie {
             ,inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> userList;
 
-    public Movie(String title, double duration, double price, String description, String url, Category category, List<User> userList) {
-        this.title = title;
-        this.duration = duration;
-        this.price = price;
-        this.description = description;
-        this.url = url;
-        this.category = category;
-        this.userList=userList;
-    }
 
-    public Movie(String title, double duration, double price, String description, String url, Category category) {
+
+    public Movie(String title, double duration, double price, String description, String url,String imageUrl) {
         this.title = title;
         this.duration = duration;
         this.price = price;
         this.description = description;
         this.url = url;
-        this.category = category;
+        this.imageUrl=imageUrl;
+
     }
 
     public Movie() {
@@ -113,7 +108,26 @@ public class Movie {
         this.userList = userList;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
 
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
-
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", duration=" + duration +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", url='" + url + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", category=" + category +
+                ", userList=" + userList +
+                '}';
+    }
 }
