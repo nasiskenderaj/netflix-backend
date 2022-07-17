@@ -1,4 +1,6 @@
 package com.example.netflixprojext.dao;
 
-public interface TvShowsDAO {
+import com.example.netflixprojext.dto.TvShowsDTO;
+
+public interface TvShowsDAO extends GenericDAO<TvShowsDTO>{
 }
