@@ -1,5 +1,7 @@
 package com.example.netflixprojext.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -18,11 +20,11 @@ public class TvShows {
     private int noOfEpisodes;
     private String imageUrl;
 
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
-
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(name = "tvShows_user",
             joinColumns = @JoinColumn(name = "tvShows_id")

@@ -1,5 +1,6 @@
 package com.example.netflixprojext.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.yaml.snakeyaml.events.Event;
 
 import javax.persistence.*;
@@ -12,10 +13,10 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String gender;
-
+@JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<Movie> movieList;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<TvShows> tvShowsList;
 
@@ -60,4 +61,6 @@ public class Category {
     public void setTvShowsList(List<TvShows> tvShowsList) {
         this.tvShowsList = tvShowsList;
     }
+
+
 }
