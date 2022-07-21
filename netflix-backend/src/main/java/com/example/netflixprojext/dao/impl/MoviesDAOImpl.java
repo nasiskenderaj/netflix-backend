@@ -6,6 +6,7 @@ import com.example.netflixprojext.entities.Category;
 import com.example.netflixprojext.entities.Movie;
 import com.example.netflixprojext.repository.CategoryRepository;
 import com.example.netflixprojext.repository.MovieRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,8 +17,9 @@ import java.util.stream.Collectors;
 @Component
 public class MoviesDAOImpl implements MoviesDAO {
 
+    @Autowired
     private MovieRepository movieRepository;
-
+    @Autowired
     private CategoryRepository categoryRepository;
     @Override
     public List<MoviesDTO> getAll() {
@@ -55,14 +57,7 @@ public class MoviesDAOImpl implements MoviesDAO {
 
     public MoviesDTO searchByName(String name){
         List<Movie> movieList=movieRepository.findAll();
-        Optional<MoviesDTO> optional = movieList.stream().filter(c -> c.getTitle() == name).map(MoviesDAOImpl::mapToDTO).findFirst();
-        if(optional.isPresent()){
-            return optional.get();
-        }
-        else {
-            return null;
-        }
-
+        return  movieRepository.findByTitle(name).map(m->MoviesDAOImpl.mapToDTO(m)).get();
     }
 
     public static Movie mapToEntity(MoviesDTO moviesDTO){

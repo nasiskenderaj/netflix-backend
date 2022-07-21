@@ -1,5 +1,6 @@
 package com.example.netflixprojext.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.yaml.snakeyaml.events.Event;
 
 import javax.persistence.*;
