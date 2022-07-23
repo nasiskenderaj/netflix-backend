@@ -14,7 +14,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String gender;
-@JsonIgnore
+    @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<Movie> movieList;
     @JsonIgnore
