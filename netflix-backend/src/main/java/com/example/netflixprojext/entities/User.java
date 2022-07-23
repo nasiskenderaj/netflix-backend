@@ -23,12 +23,20 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id")
             ,inverseJoinColumns = @JoinColumn(name = "movie_id"))
     private List<Movie> movieList;
+
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(name = "tvShows_user",
             joinColumns = @JoinColumn(name = "user_id")
             ,inverseJoinColumns = @JoinColumn(name = "tvShows_id"))
     private List<TvShows> tvShowsList;
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id")
+            ,inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<Role>roles;
 
 
 
@@ -45,6 +53,7 @@ public class User {
         this.password=userBuilder.password;
         this.movieList=userBuilder.movieList;
         this.tvShowsList=userBuilder.tvShowsList;
+        this.roles=userBuilder.roles;
     }
 
 
@@ -112,6 +121,14 @@ public class User {
         this.tvShowsList = tvShowsList;
     }
 
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
     public static class UserBuilder{
 
 
@@ -122,6 +139,7 @@ public class User {
         private String email;
         private List<Movie> movieList;
         private List<TvShows> tvShowsList;
+        private List<Role>roles;
 
 
 
@@ -154,6 +172,12 @@ public class User {
             this.tvShowsList=tvShowsList;
             return this;
         }
+
+        public UserBuilder withRoles(List<Role>roles){
+            this.roles=roles;
+            return this;
+        }
+
 
         public User build(){
             return new User(this);
