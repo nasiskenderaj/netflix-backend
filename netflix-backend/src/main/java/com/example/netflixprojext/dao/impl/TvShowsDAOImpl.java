@@ -6,6 +6,7 @@ import com.example.netflixprojext.dto.TvShowsDTO;
 import com.example.netflixprojext.entities.Movie;
 import com.example.netflixprojext.entities.TvShows;
 import com.example.netflixprojext.repository.TvShowsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class TvShowsDAOImpl implements TvShowsDAO {
+    @Autowired
 
     private TvShowsRepository tvShowsRepository;
 
@@ -44,7 +46,7 @@ public class TvShowsDAOImpl implements TvShowsDAO {
     }
 
     public TvShowsDTO searchByTitle(String title){
-        return tvShowsRepository.findByTitle(title);
+        return mapToDTO(tvShowsRepository.findByTitle(title));
     }
 
 

@@ -4,10 +4,7 @@ import com.example.netflixprojext.dto.MoviesDTO;
 import com.example.netflixprojext.dto.TvShowsDTO;
 import com.example.netflixprojext.service.TvShowsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,8 +23,8 @@ public class TvShowsController {
     }
 
 
-    @GetMapping("/{name}")
-    public TvShowsDTO searchTvShows(@PathVariable("name")String name){
+    @GetMapping("/search")
+    public TvShowsDTO searchTvShows(@RequestHeader("searchname") String name){
         return tvShowsService.searchByName(name);
     }
 

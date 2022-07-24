@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TvShowsRepository extends JpaRepository<TvShows,Long> {
-    public TvShowsDTO findByTitle(String title);
+    public TvShows findByTitle(String title);
 }

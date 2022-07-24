@@ -2,12 +2,17 @@ package com.example.netflixprojext.dao.impl;
 
 import com.example.netflixprojext.dao.MoviesDAO;
 import com.example.netflixprojext.dto.MoviesDTO;
+import com.example.netflixprojext.dto.UserDTO;
 import com.example.netflixprojext.entities.Category;
 import com.example.netflixprojext.entities.Movie;
+import com.example.netflixprojext.entities.Role;
+import com.example.netflixprojext.entities.User;
 import com.example.netflixprojext.repository.CategoryRepository;
 import com.example.netflixprojext.repository.MovieRepository;
+import com.example.netflixprojext.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -15,12 +20,16 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
+@Transactional
 public class MoviesDAOImpl implements MoviesDAO {
 
     @Autowired
     private MovieRepository movieRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private UserRepository userRepository;
     @Override
     public List<MoviesDTO> getAll() {
         return movieRepository.findAll().stream().map(MoviesDAOImpl::mapToDTO).collect(Collectors.toList());
@@ -30,6 +39,17 @@ public class MoviesDAOImpl implements MoviesDAO {
     public Movie add(MoviesDTO dto) {
         return movieRepository.save(mapToEntity(dto));
     }
+
+    public void addMovieToUser(String name, Long id) {
+
+        User user=userRepository.findByName(name);
+        Optional<Movie> movie = movieRepository.findById(id);
+        movie.ifPresent(value -> user.getMovieList().add(value));
+       // movieRepository.
+
+
+    }
+
 
     @Override
     public MoviesDTO getById(Long id) {
@@ -57,7 +77,11 @@ public class MoviesDAOImpl implements MoviesDAO {
 
     public MoviesDTO searchByName(String name){
         List<Movie> movieList=movieRepository.findAll();
-        return  movieRepository.findByTitle(name).map(m->MoviesDAOImpl.mapToDTO(m)).get();
+        return  movieRepository.findByTitle(name).map(MoviesDAOImpl::mapToDTO).get();
+    }
+    public List<MoviesDTO> getUserMovieList(Long id) {
+        Optional<User> byId = userRepository.findById(id);
+        return byId.map(user -> user.getMovieList().stream().map(MoviesDAOImpl::mapToDTO).collect(Collectors.toList())).orElse(null);
     }
 
     public static Movie mapToEntity(MoviesDTO moviesDTO){

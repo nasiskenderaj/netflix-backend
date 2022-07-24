@@ -2,9 +2,13 @@ package com.example.netflixprojext.service;
 
 import com.example.netflixprojext.dao.impl.MoviesDAOImpl;
 import com.example.netflixprojext.dto.MoviesDTO;
+import com.example.netflixprojext.dto.UserDTO;
 import com.example.netflixprojext.entities.Category;
 import com.example.netflixprojext.entities.Movie;
+import com.example.netflixprojext.entities.Role;
+import com.example.netflixprojext.entities.User;
 import com.example.netflixprojext.repository.MovieRepository;
+import com.example.netflixprojext.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,8 @@ public class MovieService {
 
     @Autowired
     private MoviesDAOImpl moviesDAO;
+
+
 
 
 
@@ -33,6 +39,11 @@ public class MovieService {
     public int removeById(Long id){
         return moviesDAO.removeById(id);
     }
+
+    public void addMovieToUser(String name,Long id){
+        moviesDAO.addMovieToUser(name, id);
+    }
+
 
     public MoviesDTO searchByName(String name){
         return moviesDAO.searchByName(name);

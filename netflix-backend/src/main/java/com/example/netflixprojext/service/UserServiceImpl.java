@@ -1,13 +1,15 @@
 package com.example.netflixprojext.service;
 
+import com.example.netflixprojext.dao.impl.MoviesDAOImpl;
+import com.example.netflixprojext.dao.impl.UserDAOimpl;
+import com.example.netflixprojext.dto.MoviesDTO;
 import com.example.netflixprojext.dto.UserDTO;
+import com.example.netflixprojext.dto.UserSignInDTO;
 import com.example.netflixprojext.entities.Role;
 import com.example.netflixprojext.entities.User;
 import com.example.netflixprojext.repository.RoleRepository;
 import com.example.netflixprojext.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,6 +28,9 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepo;
+   // private final UserDAOimpl userDAOimpl;
+
+    private final MoviesDAOImpl moviesDAO;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -33,6 +38,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepo.save(user);
+    }
+    public User register(UserDTO userDTO){
+        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+       return userRepo.save(UserDAOimpl.mapToEntity(userDTO)) ;
     }
 
     @Override
@@ -42,11 +51,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void addRoleToUser(String email, String roleName) {
-
         User user=userRepo.findByEmail(email);
         Role role=roleRepository.findByRoleName(roleName);
         user.getRoles().add(role);
     }
+    public UserDTO login(UserSignInDTO userSignInDTO){
+        User byName = userRepo.findByName(userSignInDTO.getName());
+        if (passwordEncoder.matches(userSignInDTO.getPassword(), byName.getPassword())){
+            return UserDAOimpl.mapToDTO(byName);
+        }
+return null;
+    }
+
 
     @Override
     public User getUserByEmail(String email) {
@@ -83,5 +99,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         List<SimpleGrantedAuthority>authorities=new ArrayList<>();
         user.getRoles().forEach(role -> {authorities.add(new SimpleGrantedAuthority(role.getRoleName()));});
         return new org.springframework.security.core.userdetails.User(user.getName(),user.getPassword(),authorities);
+    }
+    public List<MoviesDTO> getUserMovies(Long id){
+        return moviesDAO.getUserMovieList(id);
     }
 }
