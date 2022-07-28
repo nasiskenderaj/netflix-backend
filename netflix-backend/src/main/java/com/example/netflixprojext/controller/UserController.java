@@ -5,9 +5,11 @@ import com.example.netflixprojext.dto.UserDTO;
 import com.example.netflixprojext.dto.UserSignInDTO;
 import com.example.netflixprojext.entities.Role;
 import com.example.netflixprojext.entities.User;
-import com.example.netflixprojext.service.MovieService;
+import com.example.netflixprojext.errorHandling.NotFoundException;
+import com.example.netflixprojext.service.impl.MovieServiceImpl;
 import com.example.netflixprojext.service.UserService;
-import com.example.netflixprojext.service.UserServiceImpl;
+import com.example.netflixprojext.service.impl.TvShowsServiceImpl;
+import com.example.netflixprojext.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,58 +22,111 @@ import java.util.List;
 @RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
-    private final UserService userService;
     private final UserServiceImpl userServiceImpl;
 
-    private final MovieService movieService;
+    private final MovieServiceImpl movieService;
+
+    private final TvShowsServiceImpl tvShowsService;
 
     @GetMapping("/usersList")
-    public ResponseEntity<List<User>> getUsers(){
-        return ResponseEntity.ok().body(userService.getUsers());
+    public List<User> getUsers(){
+        return userServiceImpl.getUsers();
     }
 
 
     @PostMapping("/saveUser")
-    public ResponseEntity<User>saveUser(@RequestBody User user){
-        URI uri= URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/saveUser").toUriString());
-        return ResponseEntity.created(uri).body(userService.saveUser(user));
+    public User saveUser(@RequestBody User user){
+        return userServiceImpl.saveUser(user);
     }
 
-    @PostMapping("/role/save")
-    public ResponseEntity<Role>saveRole(@RequestBody Role role){
-        URI uri= URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/saveRole").toUriString());
-
-        return ResponseEntity.created(uri).body(userService.saveRole(role));
+    @PutMapping ("/updateUser")
+    public User updateUser(@RequestBody User user){
+        return userServiceImpl.saveUser(user);
     }
 
-    @PostMapping("/role/addtouser")
-    public ResponseEntity<?>addRoleToUser(@RequestBody RoleToUser form){
 
-        userService.addRoleToUser(form.getUsername(), form.getRoleName());
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/addMoviestouser/{id}")
-    public int addMovieToUser(@RequestHeader("name")String name,@PathVariable("id")Long id){
-        movieService.addMovieToUser(name,id);
+    @PostMapping("/addMoviestouser/{movieId}")
+    public int addMovieToUser(@RequestHeader("userName") String userName,@PathVariable Long movieId){
+        movieService.addMovieToUser(userName,movieId);
         return 456567657;
 
         }
-@GetMapping("userMovies/{id}")
-public List<MoviesDTO> getUserMOvies(@PathVariable() Long id){
+
+    @PostMapping("/addTvShowtouser/{tvShowid}")
+    public int addTvShowToUser(@RequestHeader("userName") String userName,@PathVariable Long tvShowid){
+        tvShowsService.addShowToUser(userName,tvShowid);
+        return 456567657;
+
+    }
+    @GetMapping("userMovies/{id}")
+    public List<MoviesDTO> getUserMovies(@PathVariable() Long id){
         return userServiceImpl.getUserMovies(id);
 }
+
+
+    @GetMapping("/email/{email}")
     public User searchByEmail(@PathVariable("email") String email){
-        return userService.getUserByEmail(email);
+        User user = userServiceImpl.getUserByEmail(email);
+
+        if(user==null){
+            throw new NotFoundException("User with email "+email+" not found.");
+        }
+        return user;
     }
+
+    @GetMapping("/name/{name}")
+    public User searchByName(@PathVariable("name") String name){
+        User user = userServiceImpl.getUserByName(name);
+
+        if(user==null){
+            throw new NotFoundException("User with name "+name+" not found.");
+        }
+        return user;
+    }
+
     @PostMapping("register")
-    public User register(@RequestBody() UserDTO userDTO){
-       return userServiceImpl.register(userDTO);
+    public User register(@RequestBody() User user){
+       return userServiceImpl.register(user);
     }
+
     @GetMapping("login")
     public UserDTO login(@RequestBody()UserSignInDTO userSignInDTO){
         return  userServiceImpl.login(userSignInDTO);
     }
+
+    @DeleteMapping("/deleteUser/{id}")
+    public int removeById(@PathVariable Long id) {
+        int user = userServiceImpl.removeById(id);
+
+        if(user==0){
+            throw new NotFoundException("User with id "+id+" not found.");
+        }
+        return user;
+    }
+
+
+
+
+
+    //    @PostMapping("/saveUser")
+//    public ResponseEntity<User>saveUser(@RequestBody User user){
+//        URI uri= URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/saveUser").toUriString());
+//        return ResponseEntity.created(uri).body(userService.saveUser(user));
+//    }
+
+//    @PostMapping("/role/save")
+//    public ResponseEntity<Role>saveRole(@RequestBody Role role){
+//        URI uri= URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/saveRole").toUriString());
+//
+//        return ResponseEntity.created(uri).body(userService.saveRole(role));
+//    }
+//
+//    @PostMapping("/role/addtouser")
+//    public ResponseEntity<?>addRoleToUser(@RequestBody RoleToUser form){
+//
+//        userService.addRoleToUser(form.getUsername(), form.getRoleName());
+//        return ResponseEntity.ok().build();
+//    }
 
 }
 

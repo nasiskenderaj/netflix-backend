@@ -1,27 +1,39 @@
 package com.example.netflixprojext.dao.impl;
 
 import com.example.netflixprojext.dao.TvShowsDAO;
-import com.example.netflixprojext.dto.MoviesDTO;
 import com.example.netflixprojext.dto.TvShowsDTO;
 import com.example.netflixprojext.entities.Movie;
 import com.example.netflixprojext.entities.TvShows;
+import com.example.netflixprojext.entities.User;
 import com.example.netflixprojext.repository.TvShowsRepository;
+import com.example.netflixprojext.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
+@Transactional
 public class TvShowsDAOImpl implements TvShowsDAO {
     @Autowired
-
     private TvShowsRepository tvShowsRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public List<TvShowsDTO> getAll() {
         return tvShowsRepository.findAll().stream().map(TvShowsDAOImpl::mapToDTO).collect(Collectors.toList());
+    }
+
+    public void addShowToUser(String name, Long id) {
+
+        User user = userRepository.findByName(name);
+        Optional<TvShows> tvShows = tvShowsRepository.findById(id);
+        tvShows.ifPresent(value -> user.getTvShowsList().add(value));
     }
 
     @Override
@@ -65,8 +77,7 @@ public class TvShowsDAOImpl implements TvShowsDAO {
     }
 
     public static TvShowsDTO mapToDTO(TvShows tvShows){
-        if(tvShows == null)
-            return null;
+
 
         TvShowsDTO tvShowsDTO=new TvShowsDTO();
 

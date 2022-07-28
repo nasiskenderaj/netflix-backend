@@ -17,6 +17,7 @@ public class User {
     private int age;
     private String password;
     private String email;
+
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(name = "movies_user",
