@@ -28,7 +28,7 @@ public class UserController {
 
     private final TvShowsServiceImpl tvShowsService;
 
-    @GetMapping("/usersList")
+    @GetMapping("/userList")
     public List<User> getUsers(){
         return userServiceImpl.getUsers();
     }
@@ -48,7 +48,7 @@ public class UserController {
     @PostMapping("/addMoviestouser/{movieId}")
     public int addMovieToUser(@RequestHeader("userName") String userName,@PathVariable Long movieId){
         movieService.addMovieToUser(userName,movieId);
-        return 456567657;
+        return 4565676;
 
         }
 
@@ -114,13 +114,13 @@ public class UserController {
 //        return ResponseEntity.created(uri).body(userService.saveUser(user));
 //    }
 
+//
 //    @PostMapping("/role/save")
 //    public ResponseEntity<Role>saveRole(@RequestBody Role role){
 //        URI uri= URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/saveRole").toUriString());
 //
 //        return ResponseEntity.created(uri).body(userService.saveRole(role));
 //    }
-//
 //    @PostMapping("/role/addtouser")
 //    public ResponseEntity<?>addRoleToUser(@RequestBody RoleToUser form){
 //

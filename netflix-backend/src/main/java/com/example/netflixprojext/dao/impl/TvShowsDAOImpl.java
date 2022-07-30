@@ -30,7 +30,6 @@ public class TvShowsDAOImpl implements TvShowsDAO {
     }
 
     public void addShowToUser(String name, Long id) {
-
         User user = userRepository.findByName(name);
         Optional<TvShows> tvShows = tvShowsRepository.findById(id);
         tvShows.ifPresent(value -> user.getTvShowsList().add(value));

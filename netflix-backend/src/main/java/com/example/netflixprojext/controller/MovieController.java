@@ -20,12 +20,12 @@ public class MovieController {
         return movieService.getMovies();
     }
 
-    @PostMapping("saveMovie")
+    @PostMapping("/saveMovie")
     public Movie save(@RequestBody  MoviesDTO moviesDTO){
         return movieService.save(moviesDTO);
     }
 
-    @PutMapping("updateMovie")
+    @PutMapping("/updateMovie")
     public Movie update(@RequestBody MoviesDTO moviesDTO){
         return movieService.save(moviesDTO);
     }
