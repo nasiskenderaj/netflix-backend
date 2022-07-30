@@ -57,8 +57,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
     public UserDTO login(UserSignInDTO userSignInDTO){
         User byName = userRepo.findByName(userSignInDTO.getName());
-        if (passwordEncoder.matches(userSignInDTO.getPassword(), byName.getPassword())){
-            return UserDAOimpl.mapToDTO(byName);
+        if (byName!=null) {
+            if (passwordEncoder.matches(userSignInDTO.getPassword(), byName.getPassword())) {
+                return UserDAOimpl.mapToDTO(byName);
+            }
         }
 return null;
     }

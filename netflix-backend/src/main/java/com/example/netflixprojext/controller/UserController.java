@@ -16,6 +16,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
@@ -68,7 +70,7 @@ public List<MoviesDTO> getUserMOvies(@PathVariable() Long id){
     public User register(@RequestBody() UserDTO userDTO){
        return userServiceImpl.register(userDTO);
     }
-    @GetMapping("login")
+    @PostMapping("login")
     public UserDTO login(@RequestBody()UserSignInDTO userSignInDTO){
         return  userServiceImpl.login(userSignInDTO);
     }

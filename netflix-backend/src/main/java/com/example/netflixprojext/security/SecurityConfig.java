@@ -34,14 +34,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.csrf().disable();
+        http.csrf().disable().cors().and();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/login").permitAll();
-        http.authorizeRequests().antMatchers("/user").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.GET,"/user/usersList").hasAnyAuthority("ROLE_USER");
-        http.authorizeRequests().antMatchers(HttpMethod.POST,"/user/saveUser/**").hasAnyAuthority("ROLE_ADMIN");
-        http.authorizeRequests().anyRequest().authenticated();
-        http.httpBasic();
+//        http.authorizeRequests().antMatchers("/login").permitAll();
+//        http.authorizeRequests().antMatchers("/user").permitAll();
+//        http.authorizeRequests().antMatchers(HttpMethod.GET,"/user/usersList").hasAnyAuthority("ROLE_USER");
+//        http.authorizeRequests().antMatchers(HttpMethod.POST,"/user/saveUser/**").hasAnyAuthority("ROLE_ADMIN");
+//        http.authorizeRequests().anyRequest().authenticated();
+//        http.httpBasic();
     }
 
     @Override

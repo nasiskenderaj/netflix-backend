@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class MovieController {
 
@@ -18,6 +19,7 @@ public class MovieController {
 
     @GetMapping("/movieList")
     public List<MoviesDTO> getMovies(){
+        System.out.println("dawefasdddddddddddddddd");
         System.out.println(movieService.getMovies());
         return movieService.getMovies();
 
