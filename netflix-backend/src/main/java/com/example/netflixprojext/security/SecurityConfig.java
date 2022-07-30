@@ -36,16 +36,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable().cors().and();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
 //        http.authorizeRequests().antMatchers("/login").permitAll();
 //        http.authorizeRequests().antMatchers("/user").permitAll();
 //        http.authorizeRequests().antMatchers(HttpMethod.GET,"/user/usersList").hasAnyAuthority("ROLE_USER");
 //        http.authorizeRequests().antMatchers(HttpMethod.POST,"/user/saveUser/**").hasAnyAuthority("ROLE_ADMIN");
 //        http.authorizeRequests().anyRequest().authenticated();
 //        http.httpBasic();
-    }
 
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+//        http.authorizeRequests().antMatchers("user/login").permitAll();
+//        http.authorizeRequests().antMatchers("/user/register").permitAll();
+//        http.authorizeRequests().antMatchers(HttpMethod.GET,"/user/usersList").permitAll();
+//        http.authorizeRequests().antMatchers(HttpMethod.POST,"/permission/**").hasAnyAuthority("ROLE_ADMIN");
+//        http.authorizeRequests().anyRequest().authenticated();
+//        http.httpBasic();
+//
+//    }
+
+        //@Override
+//    public AuthenticationManager authenticationManagerBean() throws Exception {
+//        return super.authenticationManagerBean();
+//    }
     }
 }

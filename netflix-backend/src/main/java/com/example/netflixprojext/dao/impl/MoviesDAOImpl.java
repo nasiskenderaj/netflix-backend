@@ -45,7 +45,6 @@ public class MoviesDAOImpl implements MoviesDAO {
         User user=userRepository.findByName(name);
         Optional<Movie> movie = movieRepository.findById(id);
         movie.ifPresent(value -> user.getMovieList().add(value));
-       // movieRepository.
 
 
     }

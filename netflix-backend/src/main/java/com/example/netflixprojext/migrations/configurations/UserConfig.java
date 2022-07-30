@@ -89,7 +89,6 @@ public class UserConfig implements CommandLineRunner {
                 .withAge(25)
                 .withEmail("nasibi958@gmail.com")
                 .withPassword(encoder.encode("nasibi12345"))
-                .withMovies(List.of(new Movie("Avengers Endgame", 2.26, 5.99, "After the devastating events of Avengers: Infinity War (2018), the universe is in ruins...", "https://www.youtube.com/watch?v=TcMBFSGVi1c","modscom")))
                 .withRoles(List.of(role2))
                 .build();
 

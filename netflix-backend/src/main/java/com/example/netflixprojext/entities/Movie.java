@@ -19,10 +19,12 @@ public class Movie {
     private String description;
     private String url;
     private String imageUrl;
+
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "category_id")
     private Category category;
+
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(name = "movies_user",
@@ -32,13 +34,14 @@ public class Movie {
 
 
 
-    public Movie(String title, double duration, double price, String description, String url,String imageUrl) {
+    public Movie(String title, double duration, double price, String description, String url,String imageUrl,Category category) {
         this.title = title;
         this.duration = duration;
         this.price = price;
         this.description = description;
         this.url = url;
         this.imageUrl=imageUrl;
+        this.category=category;
 
     }
 

@@ -1,4 +1,4 @@
-package com.example.netflixprojext.service;
+package com.example.netflixprojext.service.impl;
 
 import com.example.netflixprojext.dao.impl.MoviesDAOImpl;
 import com.example.netflixprojext.dao.impl.UserDAOimpl;
@@ -9,6 +9,7 @@ import com.example.netflixprojext.entities.Role;
 import com.example.netflixprojext.entities.User;
 import com.example.netflixprojext.repository.RoleRepository;
 import com.example.netflixprojext.repository.UserRepository;
+import com.example.netflixprojext.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,7 +29,6 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepo;
-   // private final UserDAOimpl userDAOimpl;
 
     private final MoviesDAOImpl moviesDAO;
     private final RoleRepository roleRepository;
@@ -39,9 +39,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepo.save(user);
     }
-    public User register(UserDTO userDTO){
-        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-       return userRepo.save(UserDAOimpl.mapToEntity(userDTO)) ;
+    public User register(User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepo.save(user) ;
     }
 
     @Override
@@ -69,6 +69,16 @@ return null;
     @Override
     public User getUserByEmail(String email) {
         User user = userRepo.findByEmail(email);
+        if(user==null){
+            throw new UsernameNotFoundException("Username not found");
+        }else{
+            return user;
+        }
+    }
+
+    @Override
+    public User getUserByName(String name) {
+        User user = userRepo.findByName(name);
         if(user==null){
             throw new UsernameNotFoundException("Username not found");
         }else{

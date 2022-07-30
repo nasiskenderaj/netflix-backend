@@ -1,8 +1,6 @@
 package com.example.netflixprojext.dao;
 
-import com.example.netflixprojext.dto.MoviesDTO;
 import com.example.netflixprojext.dto.TvShowsDTO;
-import com.example.netflixprojext.entities.Movie;
 import com.example.netflixprojext.entities.TvShows;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.example.netflixprojext.controller;
 
-import com.example.netflixprojext.service.MovieService;
-import com.example.netflixprojext.service.TvShowsService;
+import com.example.netflixprojext.service.impl.MovieServiceImpl;
+import com.example.netflixprojext.service.impl.TvShowsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class SearchController {
 
     @Autowired
-    private TvShowsService tvShowsService;
+    private TvShowsServiceImpl tvShowsService;
 
     @Autowired
-    private MovieService movieService;
+    private MovieServiceImpl movieService;
 
     @GetMapping("search")
     public ResponseEntity<?>searchByName(@RequestHeader("name")String name){
